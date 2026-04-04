@@ -70,7 +70,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                 const [localCommand, setLocalCommand] = useState("");
                 const [isEditing, setIsEditing] = useState(false);
                 const [editText, setEditText] = useState("");
-                const blockRef = useRef<HTMLDivElement>(null);
+                const blockRef = useRef<any>(null);
 
                 const extractText = (nodes: any): string => {
                     if (!nodes) return '';
@@ -105,10 +105,11 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                 const isHovered = ctx.hoveredId === id;
                 const hasComment = !!existingComment;
 
+                const Wrapper = Tag === 'li' ? 'li' : 'div';
+
                 return (
-                    <div ref={blockRef} className="relative">
-                        <Tag
-                            {...props}
+                    <Wrapper ref={blockRef} className="relative">
+                        <div
                             className={`relative rounded-lg transition-all duration-150 px-3 py-1.5 -mx-3 ${isHovered || isOpen ? 'bg-blue-50/60 border-l-2 border-l-blue-400 dark:bg-blue-950/30 dark:border-l-blue-500' : hasComment ? 'bg-amber-50/40 border-l-2 border-l-amber-400 dark:bg-amber-950/20 dark:border-l-amber-500' : 'border-l-2 border-l-transparent'} ${props.className || ''}`}
                             onMouseOver={(e: React.MouseEvent) => {
                                 e.stopPropagation();
@@ -118,7 +119,23 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                                 if (!isOpen && ctx.hoveredId === id) ctx.setHoveredId(null);
                             }}
                         >
-                            <span className="block pr-10">{children}</span>
+                            {Tag === 'li' ? (
+                                <div className="pr-10">{children}</div>
+                            ) : (
+                                <Tag {...props} className="pr-10 m-0">
+                                    {children}
+                                </Tag>
+                            )}
+
+                            {/* Always-visible comment indicator badge */}
+                            {hasComment && !isHovered && !isOpen && (
+                                <div className="absolute right-1 top-1/2 -translate-y-1/2 z-[5]">
+                                    <div className="flex items-center gap-1 rounded-full bg-amber-500 px-2 py-0.5 text-white shadow-sm animate-in fade-in duration-200">
+                                        <MessageSquarePlus className="h-3 w-3" />
+                                        <span className="text-[10px] font-semibold">1</span>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Hover icon - always show on hover, even if comment exists */}
                             <div className={`absolute right-1 top-1/2 -translate-y-1/2 transition-opacity duration-150 ${isOpen || isHovered ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none'}`}>
@@ -166,7 +183,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                                     </PopoverContent>
                                 </Popover>
                             </div>
-                        </Tag>
+                        </div>
 
                         {/* Inline comment chip - appears BELOW the block */}
                         {existingComment && !isEditing && (
@@ -215,7 +232,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                                 </form>
                             </div>
                         )}
-                    </div>
+                    </Wrapper>
                 );
             };
         };
@@ -333,32 +350,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                     </div>
                 </div>
 
-                {/* Floating Inline Command Bar */}
-                <div className="absolute bottom-6 left-1/2 w-full max-w-lg -translate-x-1/2 px-4">
-                    <form
-                        onSubmit={handleCommandSubmit}
-                        className="flex items-center space-x-2 rounded-full border border-slate-200 bg-white/80 p-1.5 shadow-lg backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80"
-                    >
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                            <Wand2 className="h-4 w-4" />
-                        </div>
-                        <Input
-                            placeholder="Type a command to edit this document (e.g. 'Make the tone more professional')"
-                            className="h-9 flex-1 border-0 bg-transparent px-2 shadow-none focus-visible:ring-0 dark:placeholder:text-slate-500"
-                            value={commandInput}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCommandInput(e.target.value)}
-                            disabled={isApplying}
-                        />
-                        <Button
-                            type="submit"
-                            size="sm"
-                            disabled={!commandInput.trim() || isApplying}
-                            className="h-9 rounded-full px-4"
-                        >
-                            Apply
-                        </Button>
-                    </form>
-                </div>
+
             </div>
         </HoverContext.Provider>
     );
