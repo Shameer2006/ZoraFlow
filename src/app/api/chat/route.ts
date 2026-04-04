@@ -1,16 +1,28 @@
 import { NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Content } from "@google/genai";
+import { getSupabaseUser, updateSession } from "@/lib/supabase-admin";
 
 const ai = new GoogleGenAI({});
 
 export async function POST(request: Request) {
     try {
-        const { messages, document, commandOnly, targetSection } = await request.json();
+        const {
+            messages,
+            document,
+            commandOnly,
+            targetSection,
+            sessionId,
+        } = await request.json();
 
         if (!messages || messages.length === 0) {
             return NextResponse.json({ error: "Messages are required" }, { status: 400 });
         }
 
+        // ── 1. Authenticate user (optional) ──────────────────────────────────
+        const authHeader = request.headers.get("authorization");
+        const authUser = await getSupabaseUser(authHeader);
+
+        // ── 2. Build system instruction ───────────────────────────────────────
         const systemInstruction = `
 You are ZoraFlow's PRD AI Assistant. You help users refine, rewrite, and modify their Product Requirements Documents (PRD).
 
@@ -25,22 +37,31 @@ Respond STRICTLY in JSON format matching this schema:
   "updatedDocument": "string (the complete updated markdown, or null if no changes)"
 }
 
-${targetSection ? `
-CRITICAL: The user has issued a command targeting a SPECIFIC section of the document.
+${targetSection
+                ? `CRITICAL: The user has issued a command targeting a SPECIFIC section of the document.
 TARGET SECTION TEXT: "${targetSection}"
-You MUST apply the requested change ONLY to this specific target section. Keep the rest of the document EXACTLY the same.
-` : (commandOnly ? "CRITICAL: The user has issued an internal DOCUMENT COMMAND. You MUST apply the requested change to the document and return it." : "")}
+You MUST apply the requested change ONLY to this specific target section. Keep the rest of the document EXACTLY the same.`
+                : commandOnly
+                    ? "CRITICAL: The user has issued an internal DOCUMENT COMMAND. You MUST apply the requested change to the document and return it."
+                    : ""
+            }
 
 --- CURRENT PRD DOCUMENT ---
 ${document || "(Empty Document - The user hasn't generated one yet)"}
 ----------------------------
 `;
 
-        const lastMessage = messages[messages.length - 1].content;
+        // ── 3. Build multi-turn contents for Gemini ───────────────────────────
+        // Send full conversation history so Gemini has memory across turns
+        const contents: Content[] = messages.map((msg: { role: string; content: string }) => ({
+            role: msg.role === "user" ? "user" : "model",
+            parts: [{ text: msg.content }],
+        }));
 
+        // ── 4. Call Gemini ────────────────────────────────────────────────────
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
-            contents: lastMessage,
+            contents,
             config: {
                 systemInstruction,
                 responseMimeType: "application/json",
@@ -55,9 +76,23 @@ ${document || "(Empty Document - The user hasn't generated one yet)"}
 
         const result = JSON.parse(textResponse);
 
+        // ── 5. Persist chat exchange to Supabase (non-fatal) ─────────────────
+        if (authUser && sessionId) {
+            const lastUserMsg = messages[messages.length - 1];
+            updateSession({
+                sessionId,
+                userId: authUser.userId,
+                userMessage: lastUserMsg.content,
+                assistantReply: result.reply ?? "",
+                updatedPrd: result.updatedDocument ?? undefined,
+            }).catch((e) =>
+                console.warn("[chat/route] updateSession failed (non-fatal):", e)
+            );
+        }
+
         return NextResponse.json(result);
     } catch (error: any) {
-        console.error("Gemini Chat Error:", error);
+        console.error("Chat Error:", error);
         return NextResponse.json(
             { error: error.message || "Failed to process chat" },
             { status: 500 }

@@ -1,7 +1,35 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({});
+/**
+ * Robustly parse JSON from Gemini responses.
+ * Strips markdown fences and leading/trailing noise, then falls back
+ * to extracting the first {...} block — mirrors the reference's _clean_latex logic.
+ */
+function cleanAndParseJson<T = unknown>(raw: string): T {
+    if (!raw) throw new Error("Empty response from AI");
+
+    let cleaned = raw.trim()
+        .replace(/^```(?:json)?\s*/i, "")
+        .replace(/\s*```$/, "")
+        .trim();
+
+    try {
+        return JSON.parse(cleaned) as T;
+    } catch {
+        const start = cleaned.indexOf("{");
+        const end = cleaned.lastIndexOf("}");
+        if (start !== -1 && end !== -1 && end > start) {
+            try {
+                return JSON.parse(cleaned.slice(start, end + 1)) as T;
+            } catch { /* fall through */ }
+        }
+        throw new Error(`Failed to parse AI response as JSON. Raw: ${raw.slice(0, 200)}`);
+    }
+}
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
 
 // Server-side affiliate URL map for known SaaS services
 // Replace values with your real affiliate links
@@ -117,8 +145,10 @@ export async function POST(request: Request) {
         });
 
         const raw = response.text?.trim() ?? "";
-        const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
-        const data = JSON.parse(cleaned);
+        const data = cleanAndParseJson<{
+            bomType: "hardware" | "saas";
+            items: any[];
+        }>(raw);
 
         // Server-side: inject affiliate URLs (never expose logic to client)
         if (data.bomType === "hardware" && Array.isArray(data.items)) {

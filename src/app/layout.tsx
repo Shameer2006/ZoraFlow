@@ -1,36 +1,41 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({
+    subsets: ["latin"],
+    variable: "--font-inter",
+    display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ZoraFlow – AI-Powered PRD Generator",
-  description:
-    "Transform your product idea into a detailed PRD, architecture diagrams, and Bill of Materials using ZoraFlow's AI-powered pipeline.",
+    title: "ZoraFlow – AI-Powered PRD Generator",
+    description:
+        "Transform your product idea into a detailed PRD, architecture diagrams, and Bill of Materials using ZoraFlow's AI-powered pipeline.",
+    openGraph: {
+        title: "ZoraFlow – AI-Powered PRD Generator",
+        description: "Natural Language to Technical Reality in 3 stages.",
+        type: "website",
+    },
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
-      >
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en" suppressHydrationWarning>
+            <body
+                className={`${inter.variable} antialiased`}
+                suppressHydrationWarning
+            >
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
+            </body>
+        </html>
+    );
 }
+

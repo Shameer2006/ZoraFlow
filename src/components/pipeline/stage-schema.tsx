@@ -10,6 +10,39 @@ interface StageSchemaProps {
     onRegenerate?: () => void;
 }
 
+/**
+ * Fix common Mermaid v11 syntax issues produced by AI generators.
+ * Runs BEFORE mermaid.render() as a safety net.
+ */
+function sanitizeMermaid(raw: string): string {
+    let code = raw.trim();
+
+    // ── 1. Normalise literal \n escape sequences → real line breaks ──────────
+    code = code.replace(/\\n/g, "\n");
+
+    // ── 2. Strip any leftover markdown code fences ───────────────────────────
+    code = code.replace(/^```(?:mermaid)?\s*/i, "").replace(/\s*```$/, "").trim();
+
+    // ── 3. Replace cylinder shape [(…)] with plain rectangle ["…"] ───────────
+    //    e.g.  DB[("PostgreSQL")]  →  DB["PostgreSQL"]
+    code = code.replace(/\[\("([^"]*)"\)\]/g, '["$1"]');
+    code = code.replace(/\[\(([^)]+)\)\]/g, '["$1"]');
+
+    // ── 4. Remove escaped quotes INSIDE labels (common AI mistake) ───────────
+    //    e.g.  API[\"Next.js\"] → API["Next.js"]
+    code = code.replace(/\[\\"/g, '["').replace(/\\"\]/g, '"]');
+
+    // ── 5. Strip edge labels that contain special chars breaking v11 parser ──
+    //    e.g.  --> |"GPIO 4"| → -->
+    //    (keep plain text edge labels like -->|text|, strip only quoted ones)
+    code = code.replace(/-->\|"[^"]*"\|/g, "-->").replace(/-->\|'[^']*'\|/g, "-->");
+
+    // ── 6. Remove any stray escaped backslashes before quotes ───────────────
+    code = code.replace(/\\"/g, '"');
+
+    return code;
+}
+
 function MermaidRenderer({ code }: { code: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState<string | null>(null);
@@ -21,11 +54,13 @@ function MermaidRenderer({ code }: { code: string }) {
         setRendered(false);
 
         const id = "mermaid-" + Math.random().toString(36).slice(2, 9);
+        const sanitized = sanitizeMermaid(code);
 
         import("mermaid").then(async (m) => {
             const mermaid = m.default;
             mermaid.initialize({
                 startOnLoad: false,
+                securityLevel: "loose",
                 theme: "base",
                 themeVariables: {
                     primaryColor: "#FF6B35",
@@ -43,10 +78,9 @@ function MermaidRenderer({ code }: { code: string }) {
             });
 
             try {
-                const { svg } = await mermaid.render(id, code);
+                const { svg } = await mermaid.render(id, sanitized);
                 if (containerRef.current) {
                     containerRef.current.innerHTML = svg;
-                    // Make SVG fill its container
                     const svgEl = containerRef.current.querySelector("svg");
                     if (svgEl) {
                         svgEl.style.width = "100%";
@@ -56,20 +90,28 @@ function MermaidRenderer({ code }: { code: string }) {
                     setRendered(true);
                 }
             } catch (e: any) {
-                setError(e.message || "Failed to render diagram");
+                setError(e.message || "Diagram syntax error");
             }
         });
     }, [code]);
 
     if (error) {
+        // Graceful fallback — show the diagram as readable code instead of an ugly error
         return (
-            <div
-                className="rounded-xl p-4 text-sm"
-                style={{ background: "#FFF0EE", border: "1px solid #f5c6c2", color: "#C0392B" }}
-            >
-                <p className="font-semibold mb-1">⚠️ Diagram render error</p>
-                <pre className="text-xs overflow-auto whitespace-pre-wrap">{error}</pre>
-                <pre className="mt-2 text-xs overflow-auto whitespace-pre-wrap opacity-60">{code}</pre>
+            <div className="space-y-3">
+                <div
+                    className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-medium"
+                    style={{ background: "#FFF8E1", border: "1px solid #FFD54F", color: "#7B5800" }}
+                >
+                    <span>⚠️</span>
+                    <span>Diagram could not render — showing raw source below. Try clicking <strong>Regenerate</strong>.</span>
+                </div>
+                <pre
+                    className="overflow-x-auto rounded-xl p-4 text-xs leading-relaxed"
+                    style={{ background: "#1a1a2e", color: "#FFB627", fontFamily: "monospace" }}
+                >
+                    {sanitizeMermaid(code)}
+                </pre>
             </div>
         );
     }
@@ -82,6 +124,7 @@ function MermaidRenderer({ code }: { code: string }) {
         />
     );
 }
+
 
 const IOT_TABLE_HEADERS = ["Component", "Pin", "Connection", "Voltage"];
 const SAAS_TABLE_HEADERS = ["Endpoint", "Method", "Description"];

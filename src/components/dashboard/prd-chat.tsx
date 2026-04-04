@@ -20,6 +20,10 @@ interface PrdChatProps {
     onGenerate: (prompt: string) => void;
     isGenerating: boolean;
     comments: BlockComment[];
+    /** JWT access token from Supabase (null if guest) */
+    authToken?: string | null;
+    /** Active session ID for chat persistence */
+    sessionId?: string | null;
 }
 
 /* ── Decorative sparkle SVGs ── */
@@ -329,7 +333,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
 }
 
 /* ── Main PrdChat component ── */
-export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, comments }: PrdChatProps) {
+export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, comments, authToken, sessionId }: PrdChatProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [prompt, setPrompt] = useState("");
@@ -416,9 +420,13 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
         try {
             const commentsContext = buildCommentsContext();
 
+            // Build Authorization header from the JWT passed down from page.tsx
+            const headers: Record<string, string> = { "Content-Type": "application/json" };
+            if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
+
             const response = await fetch("/api/chat", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers,
                 body: JSON.stringify({
                     messages: newMessages.map((m, i) =>
                         i === newMessages.length - 1 && m.role === "user"
@@ -426,7 +434,9 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                             : m
                     ),
                     document: markdown,
-                    commandOnly: false
+                    commandOnly: false,
+                    // Pass sessionId so the server can persist the chat turn to Supabase
+                    sessionId: sessionId ?? null,
                 }),
             });
 
