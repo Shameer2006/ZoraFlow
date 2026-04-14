@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-import { getSupabaseUser } from "@/lib/supabase-admin" from "@google/genai";
+import { getSupabaseUser } from "@/lib/supabase-admin";
 
 /**
  * Robustly parse JSON from Gemini responses.
