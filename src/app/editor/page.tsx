@@ -20,6 +20,7 @@ function EditorInner() {
     const resumeSession  = searchParams.get("session") ?? null;
 
     const [authToken,      setAuthToken]      = useState<string | null>(null);
+    const [authResolved,   setAuthResolved]   = useState(false);
     const [markdown,       setMarkdown]       = useState<string>("");
     const [isGenerating,   setIsGenerating]   = useState<boolean>(false);
     const [comments,       setComments]       = useState<BlockComment[]>([]);
@@ -33,7 +34,10 @@ function EditorInner() {
 
     /* Auth */
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => setAuthToken(session?.access_token ?? null));
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setAuthToken(session?.access_token ?? null);
+            setAuthResolved(true);
+        });
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => setAuthToken(session?.access_token ?? null));
         return () => subscription.unsubscribe();
     }, []);
@@ -43,12 +47,19 @@ function EditorInner() {
 
     /* Auto-generate on mount */
     useEffect(() => {
-        if (initialized.current) return;
+        if (!authResolved || initialized.current) return;
         initialized.current = true;
+        
+        if (!authToken && initialPrompt) {
+            // Guest intercept: Bounce to auth page instead of generating
+            window.location.href = `/auth?redirect=/editor?prompt=${encodeURIComponent(initialPrompt)}`;
+            return;
+        }
+
         if (initialPrompt && !resumeSession)   handleGenerate(initialPrompt);
         else if (resumeSession)                loadSession(resumeSession);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authToken]);
+    }, [authToken, authResolved]);
 
     const loadSession = async (sid: string) => {
         setIsGenerating(true);
@@ -77,6 +88,7 @@ function EditorInner() {
             });
             const data = await res.json();
             if (res.status === 402) { setMarkdown(`**No credits remaining.**\n\n${data.error}`); return; }
+            if (res.status === 401) { window.location.href = "/auth"; return; }
             if (!res.ok) throw new Error(data.error || "Failed to generate PRD");
             setMarkdown(data.markdown);
             if (data.sessionId) setSessionId(data.sessionId);
@@ -121,8 +133,8 @@ function EditorInner() {
     const hasDocument = !!markdown;
 
     return (
-        <div className="flex h-screen flex-col overflow-hidden" style={{ background: "#F8FAFF" }}>
-            <Navbar variant="light" />
+        <div className="flex h-screen flex-col overflow-hidden" style={{ background: "var(--zf-dark)" }}>
+            <Navbar variant="transparent" />
 
             {hasDocument && (
                 <StageNav
@@ -144,14 +156,14 @@ function EditorInner() {
                     <div className="flex flex-1 flex-col items-center justify-center gap-5 px-4 text-center">
                         <div
                             className="flex h-16 w-16 items-center justify-center rounded-2xl"
-                            style={{ background: "rgba(59,130,246,0.08)", border: "2px dashed rgba(59,130,246,0.3)" }}
+                            style={{ background: "rgba(124,58,237,0.08)", border: "2px dashed rgba(124,58,237,0.3)" }}
                         >
-                            <Cpu className="h-8 w-8 text-blue-400" />
+                            <Cpu className="h-8 w-8 text-violet-400" />
                         </div>
-                        <p className="text-base font-semibold text-slate-700">No prompt received.</p>
+                        <p className="text-base font-semibold text-slate-300">No prompt received.</p>
                         <Link
                             href="/"
-                            className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:opacity-90"
+                            className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-violet-500/20 transition-all hover:opacity-90"
                             style={{ background: "var(--zf-gradient)" }}
                         >
                             <ArrowLeft className="h-4 w-4" />
@@ -165,16 +177,16 @@ function EditorInner() {
                     <div className="flex flex-1 flex-col items-center justify-center gap-6 px-4">
                         <div
                             className="flex h-20 w-20 items-center justify-center rounded-3xl"
-                            style={{ background: "var(--zf-gradient)", boxShadow: "0 16px 40px rgba(59,130,246,0.35)" }}
+                            style={{ background: "var(--zf-gradient)", boxShadow: "0 16px 40px rgba(124,58,237,0.35)" }}
                         >
                             <Cpu className="h-9 w-9 animate-pulse text-white" />
                         </div>
                         <div className="text-center">
-                            <p className="text-xl font-extrabold text-slate-900">ZoraFlow is architecting your PRD…</p>
-                            <p className="mt-2 text-sm text-slate-500">Analyzing your idea and structuring requirements</p>
+                            <p className="text-xl font-extrabold text-white">ZoraFlow is architecting your PRD…</p>
+                            <p className="mt-2 text-sm text-slate-400">Analyzing your idea and structuring requirements</p>
                         </div>
                         <div className="flex gap-2">
-                            {["#3B82F6", "#06B6D4", "#8B5CF6"].map((c, i) => (
+                            {["#7C3AED", "#C084FC", "#8B5CF6"].map((c, i) => (
                                 <span
                                     key={i}
                                     className="dot-pulse h-2.5 w-2.5"
@@ -202,7 +214,7 @@ function EditorInner() {
                                 sessionId={sessionId}
                             />
                         </div>
-                        <div className="flex-1 overflow-hidden bg-slate-50 p-6 md:p-8">
+                        <div className="flex-1 overflow-hidden bg-[#050510] p-6 md:p-8">
                             <DocumentViewer
                                 markdown={markdown}
                                 isLoading={isGenerating}
@@ -243,10 +255,10 @@ function EditorInner() {
 export default function EditorPage() {
     return (
         <Suspense fallback={
-            <div className="flex h-screen items-center justify-center" style={{ background: "#F8FAFF" }}>
+            <div className="flex h-screen items-center justify-center" style={{ background: "var(--zf-dark)" }}>
                 <div
                     className="h-10 w-10 rounded-full border-4 border-t-transparent"
-                    style={{ borderColor: "#BFDBFE", borderTopColor: "#3B82F6", animation: "spin 0.7s linear infinite" }}
+                    style={{ borderColor: "#DDD6FE", borderTopColor: "#7C3AED", animation: "spin 0.7s linear infinite" }}
                 />
             </div>
         }>

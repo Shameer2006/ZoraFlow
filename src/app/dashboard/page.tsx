@@ -24,13 +24,13 @@ function SessionSkeleton() {
     return (
         <div
             className="animate-pulse space-y-4 rounded-2xl p-5"
-            style={{ background: "#fff", border: "2px solid var(--zf-border)" }}
+            style={{ background: "transparent", border: "2px solid var(--zf-border)" }}
         >
-            <div className="h-3 w-3/4 rounded-lg" style={{ background: "#EFF6FF" }} />
-            <div className="h-3 w-1/2 rounded-lg" style={{ background: "#EFF6FF" }} />
+            <div className="h-3 w-3/4 rounded-lg" style={{ background: "var(--zf-dark)" }} />
+            <div className="h-3 w-1/2 rounded-lg" style={{ background: "var(--zf-dark)" }} />
             <div className="flex gap-2 pt-2">
-                <div className="h-9 flex-1 rounded-xl" style={{ background: "#EFF6FF" }} />
-                <div className="h-9 w-12 rounded-xl"  style={{ background: "#EFF6FF" }} />
+                <div className="h-9 flex-1 rounded-xl" style={{ background: "var(--zf-dark)" }} />
+                <div className="h-9 w-12 rounded-xl"  style={{ background: "var(--zf-dark)" }} />
             </div>
         </div>
     );
@@ -42,17 +42,17 @@ function EmptyState({ onNew }: { onNew: () => void }) {
         <div className="col-span-full flex flex-col items-center justify-center py-28 text-center">
             <div
                 className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl"
-                style={{ background: "rgba(59,130,246,0.08)", border: "2px dashed rgba(59,130,246,0.3)" }}
+                style={{ background: "rgba(124,58,237,0.08)", border: "2px dashed rgba(124,58,237,0.3)" }}
             >
-                <FileText className="h-9 w-9 text-blue-400" />
+                <FileText className="h-9 w-9 text-violet-400" />
             </div>
-            <h3 className="mb-2 text-xl font-extrabold text-slate-900">No PRDs yet</h3>
-            <p className="mb-8 max-w-xs text-sm leading-relaxed text-slate-500">
+            <h3 className="mb-2 text-xl font-extrabold text-white">No PRDs yet</h3>
+            <p className="mb-8 max-w-xs text-sm leading-relaxed text-slate-400">
                 Generate your first PRD and it will appear here so you can continue editing anytime.
             </p>
             <button
                 onClick={onNew}
-                className="flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition-all hover:opacity-90 active:scale-95"
+                className="flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold text-white shadow-lg shadow-violet-500/20 transition-all hover:opacity-90 active:scale-95"
                 style={{ background: "var(--zf-gradient)" }}
             >
                 <Plus className="h-4 w-4" />
@@ -85,17 +85,17 @@ function SessionCard({
     return (
         <div
             className="group flex flex-col gap-4 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-            style={{ background: "#fff", border: "2px solid var(--zf-border)" }}
+            style={{ background: "transparent", border: "2px solid var(--zf-border)" }}
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
                     <Clock className="h-3 w-3" />
                     {timeAgo(session.updated_at || session.created_at)}
                 </div>
-                <FileText className="h-4 w-4 text-blue-300 opacity-50" />
+                <FileText className="h-4 w-4 text-violet-300 opacity-50" />
             </div>
 
-            <p className="line-clamp-2 flex-1 text-sm font-bold leading-snug text-slate-800">
+            <p className="line-clamp-2 flex-1 text-sm font-bold leading-snug text-slate-200">
                 {session.title || "Untitled PRD"}
             </p>
 
@@ -103,7 +103,7 @@ function SessionCard({
                 <button
                     onClick={() => onContinue(session)}
                     disabled={isResuming || isDeleting}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md shadow-violet-500/20 transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
                     style={{ background: "var(--zf-gradient)" }}
                 >
                     {isResuming ? (
@@ -207,8 +207,8 @@ export default function DashboardPage() {
     if (authLoading) return null;
 
     return (
-        <div className="min-h-screen" style={{ background: "#F8FAFF" }}>
-            <Navbar variant="light" />
+        <div className="min-h-screen" style={{ background: "var(--zf-dark)" }}>
+            <Navbar variant="transparent" />
 
             <div className="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:px-6 lg:px-8">
 
@@ -220,9 +220,9 @@ export default function DashboardPage() {
                                  style={{ background: "var(--zf-gradient)" }}>
                                 <LayoutDashboard className="h-5 w-5 text-white" />
                             </div>
-                            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">My PRDs</h1>
+                            <h1 className="text-3xl font-extrabold tracking-tight text-white">My PRDs</h1>
                         </div>
-                        <p className="ml-13 text-sm text-slate-500">
+                        <p className="ml-13 text-sm text-slate-400">
                             Pick up where you left off — all your generated documents in one place.
                         </p>
                     </div>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                         <button
                             onClick={fetchSessions}
                             disabled={loading}
-                            className="flex h-10 w-10 items-center justify-center rounded-xl border text-slate-400 transition-colors hover:bg-white hover:text-blue-600 disabled:opacity-40"
+                            className="flex h-10 w-10 items-center justify-center rounded-xl border text-slate-400 transition-colors hover:bg-[#0A0A15] hover:text-violet-600 disabled:opacity-40"
                             style={{ borderColor: "var(--zf-border)" }}
                             title="Refresh"
                         >
@@ -239,7 +239,7 @@ export default function DashboardPage() {
                         </button>
                         <button
                             onClick={() => router.push("/")}
-                            className="flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition-all hover:opacity-90 active:scale-95"
+                            className="flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-violet-500/20 transition-all hover:opacity-90 active:scale-95"
                             style={{ background: "var(--zf-gradient)" }}
                         >
                             <Plus className="h-4 w-4" />
@@ -286,14 +286,14 @@ export default function DashboardPage() {
 
             {/* Resuming overlay */}
             {resuming && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center"
+                <div className="fixed inset-0 z-[100] flex items-center justify-center"
                      style={{ background: "rgba(248,250,255,0.85)", backdropFilter: "blur(12px)" }}>
                     <div className="flex flex-col items-center gap-4">
                         <div className="flex h-14 w-14 items-center justify-center rounded-2xl"
                              style={{ background: "var(--zf-gradient)" }}>
                             <Loader2 className="h-7 w-7 animate-spin text-white" />
                         </div>
-                        <p className="text-sm font-bold text-slate-800">Loading your document…</p>
+                        <p className="text-sm font-bold text-slate-200">Loading your document…</p>
                     </div>
                 </div>
             )}

@@ -287,7 +287,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
 
     if (isLoading && !isApplying) {
         return (
-            <div className="flex h-full w-full flex-col space-y-4 rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex h-full w-full flex-col space-y-4 rounded-xl border border-slate-200 bg-transparent p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <Skeleton className="h-10 w-3/4 rounded-lg bg-slate-200 dark:bg-slate-800" />
                 <Skeleton className="h-4 w-full rounded bg-slate-200 dark:bg-slate-800" />
                 <Skeleton className="h-4 w-full rounded bg-slate-200 dark:bg-slate-800" />
@@ -304,7 +304,7 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
 
     if (!markdown) {
         return (
-            <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white/50 text-slate-500 dark:border-slate-700 dark:bg-slate-900/50">
+            <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-transparent/50 text-slate-500 dark:border-slate-700 dark:bg-slate-900/50">
                 <p>Your generated PRD will appear here.</p>
             </div>
         );
@@ -334,10 +334,10 @@ export function DocumentViewer({ markdown, isLoading, onUpdateMarkdown, comments
                     </div>
                 </div>
 
-                <div className="relative flex-1 overflow-auto rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div className="relative flex-1 overflow-auto rounded-xl border border-slate-200 bg-transparent p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     {isApplying && (
-                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm dark:bg-slate-900/50">
-                            <div className="flex items-center space-x-2 rounded-lg bg-white px-4 py-2 shadow-lg dark:bg-slate-800 dark:text-white">
+                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent/50 backdrop-blur-sm dark:bg-slate-900/50">
+                            <div className="flex items-center space-x-2 rounded-lg bg-transparent px-4 py-2 shadow-lg dark:bg-slate-800 dark:text-white">
                                 <Loader2 className="h-5 w-5 animate-spin text-slate-900 dark:text-slate-100" />
                                 <span className="text-sm font-medium">Applying Changes...</span>
                             </div>

@@ -54,7 +54,7 @@ export function StageNav({
     return (
         <div
             className="flex shrink-0 items-center"
-            style={{ background: "var(--zf-dark, #070B1A)", borderBottom: "1px solid rgba(59,130,246,0.12)" }}
+            style={{ background: "var(--zf-dark, #070B1A)", borderBottom: "1px solid rgba(124,58,237,0.12)" }}
         >
             {/* Stage tabs */}
             <div className="flex items-stretch flex-1">
@@ -81,19 +81,19 @@ export function StageNav({
                                 style={{
                                     borderBottom: active ? "2px solid transparent" : "2px solid transparent",
                                     backgroundImage: active
-                                        ? "linear-gradient(transparent, transparent), linear-gradient(135deg, #3B82F6, #06B6D4)"
+                                        ? "linear-gradient(transparent, transparent), linear-gradient(135deg, #7C3AED, #C084FC)"
                                         : "none",
                                     backgroundOrigin: active ? "border-box" : undefined,
-                                    borderImageSource: active ? "linear-gradient(135deg, #3B82F6, #06B6D4)" : "none",
+                                    borderImageSource: active ? "linear-gradient(135deg, #7C3AED, #C084FC)" : "none",
                                     color: active
-                                        ? "#fff"
+                                        ? "#050510"
                                         : unlocked
                                             ? "rgba(255,255,255,0.5)"
                                             : "rgba(255,255,255,0.2)",
                                     borderBottomWidth: "2px",
                                     borderBottomStyle: "solid",
-                                    borderBottomColor: active ? "#3B82F6" : "transparent",
-                                    background: active ? "rgba(59,130,246,0.1)" : "transparent",
+                                    borderBottomColor: active ? "#7C3AED" : "transparent",
+                                    background: active ? "rgba(124,58,237,0.1)" : "transparent",
                                 }}
                             >
                                 {/* Status indicator */}
@@ -101,18 +101,18 @@ export function StageNav({
                                     className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
                                     style={{
                                         background: done
-                                            ? "rgba(6,182,212,0.2)"
+                                            ? "rgba(192,132,252,0.2)"
                                             : active || needsGenerate
-                                                ? "rgba(59,130,246,0.2)"
+                                                ? "rgba(124,58,237,0.2)"
                                                 : "rgba(255,255,255,0.07)",
                                     }}
                                 >
                                     {loading ? (
                                         <Loader2 className="h-3.5 w-3.5 animate-spin" style={{ color: "#60A5FA" }} />
                                     ) : done ? (
-                                        <CheckCircle2 className="h-3.5 w-3.5" style={{ color: "#06B6D4" }} />
+                                        <CheckCircle2 className="h-3.5 w-3.5" style={{ color: "#C084FC" }} />
                                     ) : unlocked ? (
-                                        <Icon className="h-3.5 w-3.5" style={{ color: "#3B82F6" }} />
+                                        <Icon className="h-3.5 w-3.5" style={{ color: "#7C3AED" }} />
                                     ) : (
                                         <Lock className="h-3 w-3" style={{ color: "rgba(255,255,255,0.25)" }} />
                                     )}

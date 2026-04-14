@@ -92,9 +92,9 @@ function AuthInner() {
             >
                 {/* Glow decorations */}
                 <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 -translate-y-1/3 translate-x-1/3 rounded-full opacity-40 blur-3xl"
-                     style={{ background: "radial-gradient(circle, #3B82F6, transparent 70%)" }} />
+                     style={{ background: "radial-gradient(circle, #7C3AED, transparent 70%)" }} />
                 <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/3 translate-y-1/3 rounded-full opacity-25 blur-3xl"
-                     style={{ background: "radial-gradient(circle, #06B6D4, transparent 70%)" }} />
+                     style={{ background: "radial-gradient(circle, #C084FC, transparent 70%)" }} />
 
                 <div className="relative z-10 flex h-full flex-col p-10 xl:p-12">
 
@@ -112,7 +112,7 @@ function AuthInner() {
                         <div className="space-y-3">
                             <div
                                 className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
-                                style={{ background: "rgba(59,130,246,0.15)", borderColor: "rgba(59,130,246,0.3)", color: "#93C5FD" }}
+                                style={{ background: "rgba(124,58,237,0.15)", borderColor: "rgba(124,58,237,0.3)", color: "#93C5FD" }}
                             >
                                 <Sparkles className="h-3.5 w-3.5" />
                                 Natural Language to Technical Reality
@@ -132,7 +132,7 @@ function AuthInner() {
                                 <li key={i} className="flex items-center gap-3">
                                     <div
                                         className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                                        style={{ background: "rgba(59,130,246,0.2)" }}
+                                        style={{ background: "rgba(124,58,237,0.2)" }}
                                     >
                                         <CheckCircle2 className="h-3.5 w-3.5" style={{ color: "#60A5FA" }} />
                                     </div>
@@ -171,7 +171,7 @@ function AuthInner() {
             </div>
 
             {/* ── Right panel — auth form ──────────────────────────────────── */}
-            <div className="flex flex-1 flex-col items-center justify-center bg-white px-4 py-12 sm:px-8">
+            <div className="flex flex-1 flex-col items-center justify-center bg-[#0A0A15] px-4 py-12 sm:px-8">
 
                 {/* Mobile logo */}
                 <div className="mb-10 lg:hidden">
@@ -180,7 +180,7 @@ function AuthInner() {
                              style={{ background: "var(--zf-gradient)" }}>
                             <Zap className="h-4 w-4 text-white" />
                         </div>
-                        <span className="text-lg font-extrabold text-slate-900">ZoraFlow</span>
+                        <span className="text-lg font-extrabold text-white">ZoraFlow</span>
                     </Link>
                 </div>
 
@@ -188,10 +188,10 @@ function AuthInner() {
 
                     {/* Heading */}
                     <div className="mb-8 space-y-1">
-                        <h1 className="text-2xl font-extrabold text-slate-900">
+                        <h1 className="text-2xl font-extrabold text-white">
                             {isLogin ? "Welcome back" : "Create your account"}
                         </h1>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-slate-400">
                             {isLogin
                                 ? "Sign in to continue to ZoraFlow"
                                 : "Get 5 free PRD generations. No card required."}
@@ -202,7 +202,7 @@ function AuthInner() {
                     <button
                         onClick={handleGoogle}
                         disabled={submitting || googleLoading}
-                        className="mb-5 flex h-11 w-full items-center justify-center gap-3 rounded-xl border bg-white text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:shadow disabled:opacity-60"
+                        className="mb-5 flex h-11 w-full items-center justify-center gap-3 rounded-xl border bg-[#0A0A15] text-sm font-semibold text-slate-300 shadow-sm transition-all hover:bg-[#050510] hover:shadow disabled:opacity-60"
                         style={{ borderColor: "#E2E8F0" }}
                     >
                         {googleLoading
@@ -218,7 +218,7 @@ function AuthInner() {
                             <div className="w-full border-t border-slate-100" />
                         </div>
                         <div className="relative flex justify-center text-xs">
-                            <span className="bg-white px-3 font-medium text-slate-400">or continue with email</span>
+                            <span className="bg-[#0A0A15] px-3 font-medium text-slate-400">or continue with email</span>
                         </div>
                     </div>
 
@@ -227,7 +227,7 @@ function AuthInner() {
                         <div
                             className={`mb-5 flex items-start gap-3 rounded-xl border p-3.5 text-sm ${
                                 isVerifyMsg
-                                    ? "border-blue-100 bg-blue-50 text-blue-700"
+                                    ? "border-violet-100 bg-violet-50 text-violet-700"
                                     : "border-red-100 bg-red-50 text-red-600"
                             }`}
                         >
@@ -240,7 +240,7 @@ function AuthInner() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Email */}
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-semibold text-slate-700" htmlFor="email">
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="email">
                                 Email address
                             </label>
                             <div className="relative">
@@ -252,7 +252,7 @@ function AuthInner() {
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
                                     placeholder="you@example.com"
-                                    className="h-11 w-full rounded-xl border bg-slate-50 pl-9 pr-4 text-sm text-slate-900 outline-none transition-all focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                                    className="h-11 w-full rounded-xl border bg-[#050510] pl-9 pr-4 text-sm text-white outline-none transition-all focus:border-violet-400 focus:bg-[#0A0A15] focus:ring-2 focus:ring-violet-100"
                                     style={{ borderColor: "#E2E8F0" }}
                                 />
                             </div>
@@ -260,7 +260,7 @@ function AuthInner() {
 
                         {/* Password */}
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-semibold text-slate-700" htmlFor="password">
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="password">
                                 Password
                             </label>
                             <div className="relative">
@@ -273,7 +273,7 @@ function AuthInner() {
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="h-11 w-full rounded-xl border bg-slate-50 pl-9 pr-4 text-sm text-slate-900 outline-none transition-all focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                                    className="h-11 w-full rounded-xl border bg-[#050510] pl-9 pr-4 text-sm text-white outline-none transition-all focus:border-violet-400 focus:bg-[#0A0A15] focus:ring-2 focus:ring-violet-100"
                                     style={{ borderColor: "#E2E8F0" }}
                                 />
                             </div>
@@ -282,7 +282,7 @@ function AuthInner() {
                         <button
                             type="submit"
                             disabled={submitting || googleLoading}
-                            className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:opacity-90 active:scale-[0.99] disabled:opacity-60"
+                            className="mt-1 flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold text-white shadow-lg shadow-violet-500/25 transition-all hover:opacity-90 active:scale-[0.99] disabled:opacity-60"
                             style={{ background: "var(--zf-gradient)" }}
                         >
                             {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -292,11 +292,11 @@ function AuthInner() {
                     </form>
 
                     {/* Toggle */}
-                    <p className="mt-6 text-center text-sm text-slate-500">
+                    <p className="mt-6 text-center text-sm text-slate-400">
                         {isLogin ? "Don't have an account? " : "Already have an account? "}
                         <button
                             onClick={() => { setIsLogin(v => !v); setError(""); }}
-                            className="font-semibold text-blue-600 hover:underline"
+                            className="font-semibold text-violet-600 hover:underline"
                         >
                             {isLogin ? "Sign up free" : "Sign in"}
                         </button>
@@ -317,7 +317,7 @@ function AuthInner() {
 
 export default function AuthPage() {
     return (
-        <Suspense fallback={<div className="flex min-h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-blue-500" /></div>}>
+        <Suspense fallback={<div className="flex min-h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-violet-500" /></div>}>
             <AuthInner />
         </Suspense>
     );

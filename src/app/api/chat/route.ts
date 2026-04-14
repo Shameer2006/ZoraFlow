@@ -18,9 +18,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Messages are required" }, { status: 400 });
         }
 
-        // ── 1. Authenticate user (optional) ──────────────────────────────────
+        // ── 1. Strict Auth ─────────────────────────────────────────────────────
         const authHeader = request.headers.get("authorization");
         const authUser = await getSupabaseUser(authHeader);
+        if (!authUser) return NextResponse.json({ error: "Authentication required to chat. Please sign in." }, { status: 401 });
 
         // ── 2. Build system instruction ───────────────────────────────────────
         const systemInstruction = `
@@ -60,7 +61,7 @@ ${document || "(Empty Document - The user hasn't generated one yet)"}
 
         // ── 4. Call Gemini ────────────────────────────────────────────────────
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-flash-lite",
             contents,
             config: {
                 systemInstruction,

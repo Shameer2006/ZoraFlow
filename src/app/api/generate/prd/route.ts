@@ -9,8 +9,8 @@ import {
 } from "@/lib/supabase-admin";
 
 // Primary model with fallback  
-const PRIMARY_MODEL  = "gemini-2.5-flash-preview-04-17";
-const FALLBACK_MODEL = "gemini-2.0-flash";
+const PRIMARY_MODEL  = "gemini-2.5-flash-lite";
+const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -62,8 +62,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
         }
 
-        // ── 1. Auth (optional — guests can generate) ────────────────────────
+        // ── 1. Strict Auth ────────────────────────────────────────────────
         const authUser = await getSupabaseUser(request.headers.get("authorization"));
+        if (!authUser) return NextResponse.json({ error: "Authentication required to generate PRDs. Please sign in." }, { status: 401 });
 
         // ── 2. Credit gate ──────────────────────────────────────────────────
         if (authUser) {

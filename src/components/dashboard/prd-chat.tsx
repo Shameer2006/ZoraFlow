@@ -30,7 +30,7 @@ interface PrdChatProps {
 function SparkleOrange({ className }: { className?: string }) {
     return (
         <svg className={className} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M40 0C40 0 44 28 52 36C60 44 80 40 80 40C80 40 60 44 52 52C44 60 40 80 40 80C40 80 36 60 28 52C20 44 0 40 0 40C0 40 20 36 28 28C36 20 40 0 40 0Z" fill="#FF6B35" />
+            <path d="M40 0C40 0 44 28 52 36C60 44 80 40 80 40C80 40 60 44 52 52C44 60 40 80 40 80C40 80 36 60 28 52C20 44 0 40 0 40C0 40 20 36 28 28C36 20 40 0 40 0Z" fill="#3B82F6" />
         </svg>
     );
 }
@@ -46,7 +46,7 @@ function SparkleGreen({ className }: { className?: string }) {
 function SparkleYellow({ className }: { className?: string }) {
     return (
         <svg className={className} viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M25 0C25 0 27.5 17.5 32.5 22.5C37.5 27.5 50 25 50 25C50 25 37.5 27.5 32.5 32.5C27.5 37.5 25 50 25 50C25 50 22.5 37.5 17.5 32.5C12.5 27.5 0 25 0 25C0 25 12.5 22.5 17.5 17.5C22.5 12.5 25 0 25 0Z" fill="#FFB627" />
+            <path d="M25 0C25 0 27.5 17.5 32.5 22.5C37.5 27.5 50 25 50 25C50 25 37.5 27.5 32.5 32.5C27.5 37.5 25 50 25 50C25 50 22.5 37.5 17.5 32.5C12.5 27.5 0 25 0 25C0 25 12.5 22.5 17.5 17.5C22.5 12.5 25 0 25 0Z" fill="#06B6D4" />
         </svg>
     );
 }
@@ -128,7 +128,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header accent bar */}
-                <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #FF6B35, #FFB627, #2EC4B6)" }} />
+                <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #3B82F6, #06B6D4, #2EC4B6)" }} />
 
                 {/* Close button */}
                 <button
@@ -144,7 +144,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                     {/* Logo */}
                     <div className="mb-6 flex justify-center">
                         <span className="text-2xl font-extrabold tracking-tight" style={{ color: "#1a1a2e" }}>
-                            Zora<span style={{ color: "#FF6B35" }}>Flow</span>
+                            Zora<span style={{ color: "#3B82F6" }}>Flow</span>
                         </span>
                     </div>
 
@@ -158,7 +158,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                             <p>Add these two lines to your <code className="rounded bg-yellow-100 px-1 font-mono">.env.local</code> file and restart the dev server:</p>
                             <pre
                                 className="mt-2 overflow-x-auto rounded-lg p-2 text-[11px]"
-                                style={{ background: "#1a1a2e", color: "#FFB627", fontFamily: "monospace" }}
+                                style={{ background: "#1a1a2e", color: "#06B6D4", fontFamily: "monospace" }}
                             >{`NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co\nNEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key`}</pre>
                         </div>
                     )}
@@ -235,7 +235,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                                     color: "#1a1a2e",
                                     fontFamily: "inherit",
                                 }}
-                                onFocus={(e) => (e.currentTarget.style.borderColor = "#FF6B35")}
+                                onFocus={(e) => (e.currentTarget.style.borderColor = "#3B82F6")}
                                 onBlur={(e) => (e.currentTarget.style.borderColor = "#e8ddd4")}
                             />
                         </div>
@@ -260,7 +260,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                                         color: "#1a1a2e",
                                         fontFamily: "inherit",
                                     }}
-                                    onFocus={(e) => (e.currentTarget.style.borderColor = "#FF6B35")}
+                                    onFocus={(e) => (e.currentTarget.style.borderColor = "#3B82F6")}
                                     onBlur={(e) => (e.currentTarget.style.borderColor = "#e8ddd4")}
                                 />
                                 <button
@@ -296,7 +296,7 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                             type="submit"
                             disabled={loading}
                             className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
-                            style={{ background: "#FF6B35" }}
+                            style={{ background: "#3B82F6" }}
                         >
                             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                             {tab === "signin" ? "Sign In" : "Create Account"}
@@ -307,13 +307,13 @@ function AuthModal({ onClose, onAuthSuccess }: { onClose: () => void; onAuthSucc
                     <p className="mt-5 text-center text-xs" style={{ color: "#aaa" }}>
                         {tab === "signin" ? (
                             <>Don&apos;t have an account?{" "}
-                                <button type="button" onClick={() => { setTab("signup"); setError(null); }} className="font-semibold hover:underline" style={{ color: "#FF6B35" }}>
+                                <button type="button" onClick={() => { setTab("signup"); setError(null); }} className="font-semibold hover:underline" style={{ color: "#3B82F6" }}>
                                     Sign up
                                 </button>
                             </>
                         ) : (
                             <>Already have an account?{" "}
-                                <button type="button" onClick={() => { setTab("signin"); setError(null); }} className="font-semibold hover:underline" style={{ color: "#FF6B35" }}>
+                                <button type="button" onClick={() => { setTab("signin"); setError(null); }} className="font-semibold hover:underline" style={{ color: "#3B82F6" }}>
                                     Sign in
                                 </button>
                             </>
@@ -480,22 +480,22 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
     // ─── Phase 1: No document yet — warm, premium hero prompt ───
     if (!hasDocument) {
         return (
-            <div className="relative flex h-full w-full flex-col" style={{ background: '#FFF8F0' }}>
+            <div className="relative flex h-full w-full flex-col" style={{ background: 'var(--zf-dark)' }}>
                 {/* Top Navigation */}
                 <nav className="flex items-center justify-between px-8 py-4">
                     <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold tracking-tight" style={{ color: '#1a1a2e' }}>
-                            Zora<span style={{ color: '#FF6B35' }}>Flow</span>
+                        <span className="text-xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>
+                            Zora<span style={{ color: '#3B82F6' }}>Flow</span>
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-sm font-medium" style={{ color: '#666' }}>Docs</span>
-                        <span className="text-sm font-medium" style={{ color: '#666' }}>Pricing</span>
+                        <span className="text-sm font-medium" style={{ color: '#94A3B8' }}>Docs</span>
+                        <span className="text-sm font-medium" style={{ color: '#94A3B8' }}>Pricing</span>
                         {!user ? (
                             <button
                                 onClick={() => setShowAuthModal(true)}
                                 className="rounded-full px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                                style={{ background: '#1a1a2e' }}
+                                style={{ background: 'var(--zf-gradient)' }}
                             >
                                 Sign In
                             </button>
@@ -503,7 +503,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                             <div className="flex items-center gap-2">
                                 <div
                                     className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white shadow-sm"
-                                    style={{ background: '#FF6B35' }}
+                                    style={{ background: '#3B82F6' }}
                                     title={user.email}
                                 >
                                     {getInitials()}
@@ -511,7 +511,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                                 <button
                                     onClick={handleSignOut}
                                     className="text-xs font-medium transition-colors hover:underline"
-                                    style={{ color: '#999' }}
+                                    style={{ color: '#64748B' }}
                                 >
                                     Sign out
                                 </button>
@@ -532,16 +532,16 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                     {/* Main heading */}
                     <h1
                         className="mb-4 text-center font-extrabold leading-[1.1] tracking-tight"
-                        style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#1a1a2e' }}
+                        style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#FFFFFF' }}
                     >
                         Generate your PRD
                         <br />
-                        <span style={{ color: '#FF6B35' }}>in seconds</span>
+                        <span style={{ color: '#3B82F6' }}>in seconds</span>
                     </h1>
-                    <p className="mb-10 max-w-lg text-center text-base leading-relaxed" style={{ color: '#666' }}>
+                    <p className="mb-10 max-w-lg text-center text-base leading-relaxed" style={{ color: '#94A3B8' }}>
                         Turn any project idea into a comprehensive Product Requirements Document.
                         <br />
-                        <span style={{ color: '#FF6B35' }}>Powered by AI to architect your next product.</span>
+                        <span style={{ color: '#3B82F6' }}>Powered by AI to architect your next product.</span>
                     </p>
 
                     {/* Input card */}
@@ -549,27 +549,27 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                         <div
                             className="rounded-2xl p-5 shadow-lg"
                             style={{
-                                background: '#FFF',
-                                border: '2px solid #1a1a2e',
+                                background: 'var(--zf-dark-2)',
+                                border: '2px solid var(--zf-border)',
                             }}
                         >
                             <textarea
                                 placeholder="e.g. A habit tracking app focusing on gamification with social features..."
-                                className="w-full resize-none border-0 bg-transparent text-base outline-none placeholder:text-slate-400"
-                                style={{ minHeight: '100px', color: '#1a1a2e', fontFamily: 'inherit' }}
+                                className="w-full resize-none border-0 bg-transparent text-white text-base outline-none placeholder:text-slate-400"
+                                style={{ minHeight: '100px', color: '#FFFFFF', fontFamily: 'inherit' }}
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                                 disabled={isGenerating}
                             />
                             <div className="mt-3 flex items-center justify-between">
-                                <span className="text-xs font-medium" style={{ color: '#999' }}>
+                                <span className="text-xs font-medium" style={{ color: '#64748B' }}>
                                     ⚡ uses zoraflow AI
                                 </span>
                                 <button
                                     type="submit"
                                     disabled={!prompt.trim() || isGenerating}
                                     className="rounded-lg px-6 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 disabled:opacity-40"
-                                    style={{ background: '#FF6B35' }}
+                                    style={{ background: '#3B82F6' }}
                                 >
                                     {isGenerating ? (
                                         <span className="flex items-center gap-2">
@@ -586,7 +586,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
 
                     {/* Quick suggestions */}
                     <div className="mt-6 flex flex-col items-center gap-3">
-                        <p className="text-xs font-medium" style={{ color: '#999' }}>
+                        <p className="text-xs font-medium" style={{ color: '#64748B' }}>
                             Try these example ideas:
                         </p>
                         <div className="flex flex-wrap justify-center gap-2">
@@ -603,9 +603,9 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                                     onClick={() => setPrompt(suggestion)}
                                     className="rounded-full px-4 py-2 text-xs font-semibold transition-all hover:opacity-80"
                                     style={{
-                                        background: '#1a1a2e',
+                                        background: 'var(--zf-gradient)',
                                         color: '#FFF',
-                                        border: '1.5px solid #1a1a2e',
+                                        border: '1.5px solid var(--zf-border)',
                                     }}
                                 >
                                     {suggestion}
@@ -616,12 +616,12 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                 </div>
 
                 {/* Footer */}
-                <footer className="mt-auto py-5 text-center" style={{ borderTop: '1px solid #f0e6da' }}>
-                    <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs" style={{ color: '#aaa' }}>
+                <footer className="mt-auto py-5 text-center" style={{ borderTop: '1px solid var(--zf-border)' }}>
+                    <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs" style={{ color: '#475569' }}>
                         <span>© {new Date().getFullYear()} ZoraFlow</span>
-                        <Link href="/about" className="transition-colors hover:text-orange-500 font-medium" style={{ color: '#bbb' }}>About</Link>
-                        <Link href="/terms" className="transition-colors hover:text-orange-500 font-medium" style={{ color: '#bbb' }}>Terms &amp; Conditions</Link>
-                        <Link href="/privacy" className="transition-colors hover:text-orange-500 font-medium" style={{ color: '#bbb' }}>Privacy Policy</Link>
+                        <Link href="/about" className="transition-colors hover:text-blue-400 font-medium" style={{ color: '#334155' }}>About</Link>
+                        <Link href="/terms" className="transition-colors hover:text-blue-400 font-medium" style={{ color: '#334155' }}>Terms &amp; Conditions</Link>
+                        <Link href="/privacy" className="transition-colors hover:text-blue-400 font-medium" style={{ color: '#334155' }}>Privacy Policy</Link>
                     </div>
                 </footer>
 
@@ -640,20 +640,20 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
 
     // ─── Phase 2: Document exists — chat panel on the left ───
     return (
-        <div className="flex h-full flex-col" style={{ background: '#FFF8F0' }}>
+        <div className="flex h-full flex-col" style={{ background: 'var(--zf-dark)' }}>
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #f0e6da' }}>
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--zf-border)' }}>
                 <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: '#FF6B35' }}>
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: '#3B82F6' }}>
                         <svg className="h-4.5 w-4.5 text-white" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L13.09 8.26L18 6L14.74 10.91L21 12L14.74 13.09L18 18L13.09 15.74L12 22L10.91 15.74L6 18L9.26 13.09L3 12L9.26 10.91L6 6L10.91 8.26L12 2Z" />
                         </svg>
                     </div>
                     <div>
-                        <h3 className="text-sm font-bold" style={{ color: '#1a1a2e' }}>
-                            Zora<span style={{ color: '#FF6B35' }}>Flow</span> Assistant
+                        <h3 className="text-sm font-bold" style={{ color: '#FFFFFF' }}>
+                            Zora<span style={{ color: '#3B82F6' }}>Flow</span> Assistant
                         </h3>
-                        <p className="text-[11px]" style={{ color: '#999' }}>Ask questions or request edits</p>
+                        <p className="text-[11px]" style={{ color: '#64748B' }}>Ask questions or request edits</p>
                     </div>
                 </div>
 
@@ -662,7 +662,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                     <div className="flex items-center gap-2">
                         <div
                             className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
-                            style={{ background: '#FF6B35' }}
+                            style={{ background: '#3B82F6' }}
                             title={user.email}
                         >
                             {getInitials()}
@@ -670,7 +670,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                         <button
                             onClick={handleSignOut}
                             className="text-[11px] font-medium hover:underline"
-                            style={{ color: '#aaa' }}
+                            style={{ color: '#475569' }}
                         >
                             Sign out
                         </button>
@@ -682,7 +682,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
             {comments.length > 0 && (
                 <div className="mx-4 mt-3 space-y-2">
                     <div className="flex items-center gap-2 px-1">
-                        <MessageSquare className="h-3.5 w-3.5 shrink-0" style={{ color: '#FF6B35' }} />
+                        <MessageSquare className="h-3.5 w-3.5 shrink-0" style={{ color: '#3B82F6' }} />
                         <span className="text-xs font-semibold" style={{ color: '#995200' }}>
                             {comments.length} inline comment{comments.length !== 1 ? 's' : ''}
                         </span>
@@ -691,14 +691,14 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                         <div
                             key={comment.id || idx}
                             className="rounded-xl p-3 text-xs transition-all hover:shadow-md"
-                            style={{ background: '#FFF', border: '1px solid #FFD9B3' }}
+                            style={{ background: 'var(--zf-dark-2)', border: '1px solid #FFD9B3' }}
                         >
                             {/* Section text preview */}
-                            <div className="mb-1.5 truncate font-medium" style={{ color: '#999', maxWidth: '100%' }}>
+                            <div className="mb-1.5 truncate font-medium" style={{ color: '#64748B', maxWidth: '100%' }}>
                                 📄 {comment.blockText.length > 60 ? comment.blockText.substring(0, 60) + '...' : comment.blockText}
                             </div>
                             {/* Comment text */}
-                            <div className="mb-2 leading-relaxed" style={{ color: '#1a1a2e' }}>
+                            <div className="mb-2 leading-relaxed" style={{ color: '#FFFFFF' }}>
                                 💬 {comment.commentText}
                             </div>
                             {/* Apply button */}
@@ -709,7 +709,7 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                                     setInput(applyMessage);
                                 }}
                                 className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-semibold text-white transition-all hover:opacity-90"
-                                style={{ background: '#FF6B35' }}
+                                style={{ background: '#3B82F6' }}
                             >
                                 ⚡ Apply Comment
                             </button>
@@ -728,8 +728,8 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                         <div
                             className="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed"
                             style={msg.role === "user"
-                                ? { background: '#1a1a2e', color: '#FFF' }
-                                : { background: '#FFF', color: '#1a1a2e', border: '1px solid #f0e6da' }
+                                ? { background: 'var(--zf-gradient)', color: '#FFF' }
+                                : { background: 'var(--zf-dark-2)', color: '#FFFFFF', border: '1px solid var(--zf-border)' }
                             }
                         >
                             {msg.content}
@@ -738,10 +738,10 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
                 ))}
                 {isLoading && (
                     <div className="flex justify-start">
-                        <div className="rounded-2xl px-4 py-3" style={{ background: '#FFF', border: '1px solid #f0e6da' }}>
+                        <div className="rounded-2xl px-4 py-3" style={{ background: 'var(--zf-dark-2)', border: '1px solid var(--zf-border)' }}>
                             <div className="flex gap-1.5">
-                                <span className="h-2 w-2 rounded-full animate-bounce [animation-delay:0ms]" style={{ background: '#FF6B35' }}></span>
-                                <span className="h-2 w-2 rounded-full animate-bounce [animation-delay:150ms]" style={{ background: '#FFB627' }}></span>
+                                <span className="h-2 w-2 rounded-full animate-bounce [animation-delay:0ms]" style={{ background: '#3B82F6' }}></span>
+                                <span className="h-2 w-2 rounded-full animate-bounce [animation-delay:150ms]" style={{ background: '#06B6D4' }}></span>
                                 <span className="h-2 w-2 rounded-full animate-bounce [animation-delay:300ms]" style={{ background: '#2EC4B6' }}></span>
                             </div>
                         </div>
@@ -751,26 +751,26 @@ export function PrdChat({ markdown, onUpdateMarkdown, onGenerate, isGenerating, 
             </div>
 
             {/* Input */}
-            <div className="p-4" style={{ borderTop: '1px solid #f0e6da' }}>
+            <div className="p-4" style={{ borderTop: '1px solid var(--zf-border)' }}>
                 <form onSubmit={handleSend} className="flex gap-2">
                     <div
                         className="flex flex-1 items-center rounded-xl px-3"
-                        style={{ background: '#FFF', border: '2px solid #1a1a2e' }}
+                        style={{ background: 'var(--zf-dark-2)', border: '2px solid var(--zf-border)' }}
                     >
                         <Input
                             placeholder={comments.length > 0 ? "e.g. Apply all comments..." : "e.g. Add offline support..."}
                             value={input}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
                             disabled={isLoading}
-                            className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
-                            style={{ color: '#1a1a2e' }}
+                            className="h-10 flex-1 border-0 bg-transparent text-white shadow-none focus-visible:ring-0"
+                            style={{ color: '#FFFFFF' }}
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={!input.trim() || isLoading}
                         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white transition-all hover:opacity-90 disabled:opacity-40"
-                        style={{ background: '#FF6B35' }}
+                        style={{ background: '#3B82F6' }}
                     >
                         <Send className="h-4 w-4" />
                     </button>

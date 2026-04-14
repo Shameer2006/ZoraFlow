@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { getSupabaseUser } from "@/lib/supabase-admin" from "@google/genai";
 
 /**
  * Robustly parse JSON from Gemini responses.
@@ -127,6 +128,9 @@ Include 5–10 items. Be realistic and project-specific.`;
 
 export async function POST(request: Request) {
     try {
+        const authUser = await getSupabaseUser(request.headers.get("authorization"));
+        if (!authUser) return NextResponse.json({ error: "Authentication required to generate BOM." }, { status: 401 });
+
         const { prd, projectType } = await request.json();
 
         if (!prd) {
@@ -136,7 +140,7 @@ export async function POST(request: Request) {
         const typeHint = projectType ? `\n\nNote: This has been identified as a ${projectType === "iot" ? "Hardware/IoT" : "Software/SaaS"} project.` : "";
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-flash-lite",
             contents: `Generate the Bill of Materials for this project:${typeHint}\n\n${prd}`,
             config: {
                 systemInstruction,

@@ -56,19 +56,19 @@ export function Navbar({ variant = "light" }: NavbarProps) {
 
     const isLight = variant === "light";
     const navBg   = isLight
-        ? scrolled ? "bg-white/95 shadow-sm shadow-blue-100/30" : "bg-white/90"
-        : scrolled ? "bg-[#070B1A]/90 shadow-sm shadow-blue-900/20" : "bg-transparent";
+        ? scrolled ? "bg-[#050510]/95 shadow-sm shadow-violet-100/30" : "bg-[#050510]/90"
+        : scrolled ? "bg-[#070B1A]/90 shadow-sm shadow-violet-900/20" : "bg-transparent";
 
-    const textSecondary = isLight ? "text-slate-500" : "text-white/60";
-    const hoverBg       = isLight ? "hover:bg-blue-50" : "hover:bg-white/10";
-    const borderColor   = isLight ? "border-blue-100" : "border-white/10";
-    const activeColor   = isLight ? "text-blue-600"   : "text-cyan-400";
+    const textSecondary = isLight ? "text-slate-400" : "text-white/60";
+    const hoverBg       = isLight ? "hover:bg-violet-50" : "hover:bg-[#0A0A15]/10";
+    const borderColor   = isLight ? "border-violet-100" : "border-white/10";
+    const activeColor   = isLight ? "text-violet-600"   : "text-fuchsia-400";
     const avatarInitial = user?.email?.[0]?.toUpperCase() ?? "U";
 
     return (
         <>
             <header
-                className={`sticky top-0 z-50 w-full border-b backdrop-blur-xl transition-all duration-300 ${navBg} ${borderColor}`}
+                className={`sticky top-0 z-[100] w-full border-b backdrop-blur-xl transition-all duration-300 ${navBg} ${borderColor}`}
             >
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
@@ -80,7 +80,7 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                         >
                             <Zap className="h-4 w-4 text-white" />
                         </div>
-                        <span className={`text-lg font-extrabold tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>
+                        <span className={`text-lg font-extrabold tracking-tight ${isLight ? "text-white" : "text-white"}`}>
                             Zora<span className="zf-gradient-text">Flow</span>
                         </span>
                     </Link>
@@ -107,9 +107,9 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                             <div
                                 className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
                                 style={{
-                                    background:   "rgba(59,130,246,0.08)",
-                                    borderColor:  "rgba(59,130,246,0.2)",
-                                    color: "#2563EB",
+                                    background:   "rgba(124,58,237,0.08)",
+                                    borderColor:  "rgba(124,58,237,0.2)",
+                                    color: "#6D28D9",
                                 }}
                             >
                                 <Zap className="h-3 w-3" />
@@ -132,17 +132,17 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                                     {userMenuOpen && (
                                         <div
                                             className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-2xl border shadow-xl"
-                                            style={{ background: "#fff", borderColor: "var(--zf-border)" }}
+                                            style={{ background: "transparent", borderColor: "var(--zf-border)" }}
                                         >
                                             <div className="border-b px-4 py-3" style={{ borderColor: "var(--zf-border)" }}>
-                                                <p className="truncate text-xs font-semibold text-slate-800">{user.email}</p>
-                                                <p className="mt-0.5 text-xs text-blue-600 font-medium">{user.credits ?? 0} credits available</p>
+                                                <p className="truncate text-xs font-semibold text-slate-200">{user.email}</p>
+                                                <p className="mt-0.5 text-xs text-violet-600 font-medium">{user.credits ?? 0} credits available</p>
                                             </div>
                                             <div className="py-1">
                                                 <Link
                                                     href="/dashboard"
                                                     onClick={() => setUserMenuOpen(false)}
-                                                    className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                                                    className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 transition-colors hover:bg-violet-50 hover:text-violet-700"
                                                 >
                                                     <LayoutDashboard className="h-4 w-4" />
                                                     My PRDs
@@ -170,7 +170,7 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                                     </Link>
                                     <Link
                                         href="/auth"
-                                        className="flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-all hover:opacity-90 active:scale-95"
+                                        className="flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-all hover:opacity-90 active:scale-95"
                                         style={{ background: "var(--zf-gradient)" }}
                                     >
                                         Get Started
@@ -194,8 +194,8 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                 {/* Mobile menu */}
                 {mobileOpen && (
                     <div
-                        className={`border-t md:hidden ${isLight ? "bg-white" : "bg-[#070B1A]"}`}
-                        style={{ borderColor: isLight ? "var(--zf-border)" : "rgba(59,130,246,0.15)" }}
+                        className={`border-t md:hidden ${isLight ? "bg-[#0A0A15]" : "bg-[#070B1A]"}`}
+                        style={{ borderColor: isLight ? "var(--zf-border)" : "rgba(124,58,237,0.15)" }}
                     >
                         <div className="space-y-1 px-4 py-3">
                             {NAV_LINKS.map((link) => (
@@ -213,13 +213,13 @@ export function Navbar({ variant = "light" }: NavbarProps) {
 
                         <div
                             className="border-t px-4 pb-4 pt-3"
-                            style={{ borderColor: isLight ? "var(--zf-border)" : "rgba(59,130,246,0.1)" }}
+                            style={{ borderColor: isLight ? "var(--zf-border)" : "rgba(124,58,237,0.1)" }}
                         >
                             {user ? (
                                 <div className="space-y-2">
                                     <div
                                         className="flex items-center gap-3 rounded-xl border px-3 py-2.5"
-                                        style={{ borderColor: "var(--zf-border)", background: "rgba(59,130,246,0.04)" }}
+                                        style={{ borderColor: "var(--zf-border)", background: "rgba(124,58,237,0.04)" }}
                                     >
                                         <div
                                             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
@@ -228,16 +228,16 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                                             {avatarInitial}
                                         </div>
                                         <div className="min-w-0">
-                                            <p className={`truncate text-sm font-medium ${isLight ? "text-slate-800" : "text-white"}`}>
+                                            <p className={`truncate text-sm font-medium ${isLight ? "text-slate-200" : "text-white"}`}>
                                                 {user.email}
                                             </p>
-                                            <p className="text-xs font-semibold text-blue-600">{user.credits ?? 0} credits</p>
+                                            <p className="text-xs font-semibold text-violet-600">{user.credits ?? 0} credits</p>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-2">
                                         <button
                                             onClick={() => { router.push("/dashboard"); setMobileOpen(false); }}
-                                            className="flex items-center justify-center gap-2 rounded-xl border py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-blue-50"
+                                            className="flex items-center justify-center gap-2 rounded-xl border py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-violet-50"
                                             style={{ borderColor: "var(--zf-border)" }}
                                         >
                                             <LayoutDashboard className="h-4 w-4" />
@@ -258,7 +258,7 @@ export function Navbar({ variant = "light" }: NavbarProps) {
                                     <Link
                                         href="/auth"
                                         onClick={() => setMobileOpen(false)}
-                                        className="rounded-xl border py-2.5 text-center text-sm font-medium text-slate-700 transition-colors hover:bg-blue-50"
+                                        className="rounded-xl border py-2.5 text-center text-sm font-medium text-slate-300 transition-colors hover:bg-violet-50"
                                         style={{ borderColor: "var(--zf-border)" }}
                                     >
                                         Sign in

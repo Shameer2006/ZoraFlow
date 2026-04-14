@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { getSupabaseUser } from "@/lib/supabase-admin" from "@google/genai";
 
 /**
  * Robustly parse JSON from Gemini responses.
@@ -70,6 +71,9 @@ Generate realistic project-specific values. Include 4–8 table rows. Keep merma
 
 export async function POST(request: Request) {
     try {
+        const authUser = await getSupabaseUser(request.headers.get("authorization"));
+        if (!authUser) return NextResponse.json({ error: "Authentication required to generate Schema." }, { status: 401 });
+
         const { prd } = await request.json();
 
         if (!prd) {
@@ -77,7 +81,7 @@ export async function POST(request: Request) {
         }
 
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-flash-lite",
             contents: `Analyze this PRD and generate the visual schema output:\n\n${prd}`,
             config: {
                 systemInstruction,
